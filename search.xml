@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+    
+    <entry>
+      <title><![CDATA[JVM学习-1]]></title>
+      <url>http://gether.me/2016/07/JVM%E5%AD%A6%E4%B9%A0-1/</url>
+      <content type="html"><![CDATA[<h1 id="jvm参数"><a href="#jvm参数" class="headerlink" title="jvm参数"></a>jvm参数</h1><ol>
+<li>-Xmx    Java Heap最大值，默认值为物理内存的1/4；</li>
+<li>-Xms    Java Heap初始值，Server端JVM最好将-Xms和-Xmx设为相同值，开发测试机JVM可以保留默认值；</li>
+<li>-Xmn    Java Heap Young区大小，不熟悉最好保留默认值；</li>
+<li>-Xss      每个线程的Stack大小，不熟悉最好保留默认值；</li>
+<li>-XX:PermSize：设定内存的永久保存区域； </li>
+<li>-XX:MaxPermSize：设定最大内存的永久保存区域；</li>
+<li>-XX:NewSize：设置JVM堆的‘新生代’的默认大小；</li>
+<li>-XX:MaxNewSize：设置JVM堆的‘新生代’的最大大小； </li>
+</ol>
+<a id="more"></a>
+<h1 id="jps使用"><a href="#jps使用" class="headerlink" title="jps使用"></a>jps使用</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">jps 查看运行的java进程</div><div class="line">jps -mlv</div><div class="line">``` </div><div class="line"></div><div class="line"><span class="comment"># jstatd</span></div><div class="line"></div><div class="line">``` bash	</div><div class="line">nohup jstatd -J-Djava.rmi.server.hostname=10.175.132.76 -J-Djava.security.policy=jstatd.all.policy -J-Dcom.sun.management.jmxremote.authenticate=<span class="literal">false</span> -J-Dcom.sun.management.jmxremote.ssl=<span class="literal">false</span> -J-Dcom.sun.management.jmxremote.port=8888 &amp;</div><div class="line">		启动一个守护线程</div><div class="line">	<span class="comment"># java.rmi.server.hostname  jstatd绑定的主机ip地址</span></div><div class="line">	<span class="comment"># com.sun.management.jmxremote.port  jmx的端口地址</span></div><div class="line">	<span class="comment"># java.security.policy    赋予jstatd权限的文件</span></div><div class="line"></div><div class="line">			jstatd.all.policy文件内容</div><div class="line">			grant codebase <span class="string">"file:<span class="variable">$&#123;java.home&#125;</span>/../lib/tools.jar"</span> &#123;</div><div class="line">				permission java.security.AllPermission;</div><div class="line">			&#125;; </div><div class="line"></div><div class="line">	<span class="comment"># 实际如果需要通过VisualVM监控Tomcat，配置catalina.sh</span></div><div class="line">	</div><div class="line">			CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib -Dapplication.home=/usr/java/jdk1.8.0_91 -Djava.rmi.server.hostname=114.215.133.86 -Djava.security.policy=jstatd.all.policy -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.port=8888"</span></div></pre></td></tr></table></figure>
+<h1 id="javap"><a href="#javap" class="headerlink" title="javap"></a>javap</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">javap <span class="_">-l</span> -p -c ConfigServiceImpl</div><div class="line">1.l – 打印行数和局部变量</div><div class="line">2.p – 打印包括非public在内的所有类和成员信息</div><div class="line">3.c – 打印方法字节码(可以不添加)</div></pre></td></tr></table></figure>
+<h1 id="jmap"><a href="#jmap" class="headerlink" title="jmap"></a>jmap</h1><p><a href="http://www.hollischuang.com/archives/303" target="_blank" rel="external">点我查看</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">不需要引发 OutOfMemoryErrors 就可以获取堆dump文件的方法  </div><div class="line">1. jmap -dump:live,format=b,file=heap.bin 1354  (sudo su)</div><div class="line">2. 如果切换了用户出现这样的情况：</div><div class="line">	VMVersionMismatchException: Supported versions are 23.25-b01. Target VM is 24.65-b04</div><div class="line">    需要执行update-alternatives --get-selections | grep jinfo</div><div class="line">        jinfo auto     /usr/lib/jvm/java-6-openjdk-amd64/bin/jinfo</div><div class="line">    进行解决 [看我得到详细解答](http://serverfault.duapp.com/questions/653755/jinfo-for-java-7-openjdk-amd64)</div><div class="line">3. jhat heap.bin</div><div class="line">4. http://localhost:7000</div></pre></td></tr></table></figure>
+<h1 id="jhat"><a href="#jhat" class="headerlink" title="jhat"></a>jhat</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">分析hprof文件工具</div><div class="line">1. jvm配置oom的dump文件</div><div class="line">	-XX:+HeapDumpOnOutOfMemoryError  -XX:HeapDumpPath=<span class="variable">$&#123;目录&#125;</span> </div><div class="line">2. jhat java_pid5644.hprof  or  jhat heap.bin</div><div class="line">3. http://localhost:7000</div><div class="line">``` </div><div class="line"></div><div class="line"><span class="comment"># jstack</span></div><div class="line">[Detail](http://www.hollischuang.com/archives/110)</div><div class="line"></div><div class="line">``` bash	</div><div class="line">实时生成hprof文件 </div><div class="line">jstack -F <span class="_">-l</span> 9153 然后通过jhat查看</div></pre></td></tr></table></figure>
+<h1 id="jstat"><a href="#jstat" class="headerlink" title="jstat"></a>jstat</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">实时监控heap size和垃圾回收状况</div><div class="line">jstat -gcutil 17010 250 50   (17010为jvm pid，250表示250毫秒查看一次，50表示持续50次)</div></pre></td></tr></table></figure>]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[某人的命令]]></title>
+      <url>http://gether.me/2016/07/%E6%9F%90%E4%BA%BA%E7%9A%84%E5%91%BD%E4%BB%A4/</url>
+      <content type="html"><![CDATA[<h1 id="空调"><a href="#空调" class="headerlink" title="空调"></a>空调</h1><p><img src="http://pic.58pic.com/58pic/11/31/59/11w58PICszj.jpg" alt="空调1"></p>
+<a id="more"></a>
+<p><img src="http://img01.taopic.com/150320/240401-1503200QH791.jpg" alt="空调2"></p>
+<p><img src="http://img01.taopic.com/150320/240401-1503200S04761.jpg" alt="空调3"></p>
+<h1 id="冰箱"><a href="#冰箱" class="headerlink" title="冰箱"></a>冰箱</h1><p><img src="http://img001.hc360.cn/g1/M00/5C/56/wKhQMFIhpNSENq_KAAAAAEGXWiI111.jpg" alt="冰箱1"></p>
+<p><img src="http://image3.suning.cn/content/catentries/00000000010231/000000000102317253/fullimage/000000000102317253_8f.jpg" alt="冰箱2"></p>
+<p><img src="http://image.suning.cn/images/nrgl/cpjs/101236681_20120911190449.jpg" alt="冰箱3"></p>
+<p><img src="http://sc.jb51.net/uploads/allimg/141028/10-14102Q540391F.jpg" alt="冰箱4"></p>
+<h1 id="微波炉"><a href="#微波炉" class="headerlink" title="微波炉"></a>微波炉</h1><p><img src="http://vogue.moonbasa.com/files/2011/5/9/14-513460034864.jpg" alt="微波炉1"></p>
+<p><img src="http://img01.dwgou.com/efiles/2011-09-14/201109141202500.jpg" alt="微波炉2"></p>
+<h1 id="洗衣机"><a href="#洗衣机" class="headerlink" title="洗衣机"></a>洗衣机</h1><p><img src="http://img.wjw.cn/mbr1003/mbr100306081318343244/PicNatural/IMG100306083507390012.jpg" alt="洗衣机1"></p>
+<p><img src="http://photocdn.sohu.com/20080630/Img257837369.jpg" alt="洗衣机2"></p>
+<p><img src="http://photo.cheaa.com/pic_big/372/372/5000228/100000627.jpg" alt="洗衣机3"></p>
+<h1 id="防盗门"><a href="#防盗门" class="headerlink" title="防盗门"></a>防盗门</h1><p><img src="http://img.cn.easthardware.com/upload_images_12/116185/20076131813215800.JPG" alt="防盗门1"></p>
+<p><img src="http://news.17house.com/data/attachment/portal/201602/24/121844l607qeq74u7un6lf.png" alt="防盗门2"></p>
+]]></content>
+    </entry>
+    
+  
+  
+</search>
