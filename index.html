@@ -399,10 +399,10 @@
         
           <h1 id="jvm参数"><a href="#jvm参数" class="headerlink" title="jvm参数"></a>jvm参数</h1><ol>
 <li>-Xmx    Java Heap最大值，默认值为物理内存的1/4；</li>
-<li>-Xms    Java Heap初始值，Server端JVM最好将-Xms和-Xmx设为相同值，开发测试机JVM可以保留默认值；</li>
+<li>-Xms    Java Heap初始值，生产机JVM最好将-Xms和-Xmx设为相同值，开发测试机JVM可以保留默认值；</li>
 <li>-Xmn    Java Heap Young区大小，不熟悉最好保留默认值；</li>
 <li>-Xss      每个线程的Stack大小，不熟悉最好保留默认值；</li>
-<li>-XX:PermSize：设定内存的永久保存区域； </li>
+<li>-XX:PermSize：设定内存的永久保存区域； （java8没有了）</li>
 <li>-XX:MaxPermSize：设定最大内存的永久保存区域；</li>
 <li>-XX:NewSize：设置JVM堆的‘新生代’的默认大小；</li>
 <li>-XX:MaxNewSize：设置JVM堆的‘新生代’的最大大小； </li>

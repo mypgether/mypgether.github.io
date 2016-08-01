@@ -8,21 +8,62 @@
       <url>http://gether.me/2016/07/JVM%E5%AD%A6%E4%B9%A0-1/</url>
       <content type="html"><![CDATA[<h1 id="jvm参数"><a href="#jvm参数" class="headerlink" title="jvm参数"></a>jvm参数</h1><ol>
 <li>-Xmx    Java Heap最大值，默认值为物理内存的1/4；</li>
-<li>-Xms    Java Heap初始值，Server端JVM最好将-Xms和-Xmx设为相同值，开发测试机JVM可以保留默认值；</li>
+<li>-Xms    Java Heap初始值，生产机JVM最好将-Xms和-Xmx设为相同值，开发测试机JVM可以保留默认值；</li>
 <li>-Xmn    Java Heap Young区大小，不熟悉最好保留默认值；</li>
 <li>-Xss      每个线程的Stack大小，不熟悉最好保留默认值；</li>
-<li>-XX:PermSize：设定内存的永久保存区域； </li>
+<li>-XX:PermSize：设定内存的永久保存区域； （java8没有了）</li>
 <li>-XX:MaxPermSize：设定最大内存的永久保存区域；</li>
 <li>-XX:NewSize：设置JVM堆的‘新生代’的默认大小；</li>
 <li>-XX:MaxNewSize：设置JVM堆的‘新生代’的最大大小； </li>
 </ol>
 <a id="more"></a>
-<h1 id="jps使用"><a href="#jps使用" class="headerlink" title="jps使用"></a>jps使用</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">jps 查看运行的java进程</div><div class="line">jps -mlv</div><div class="line">``` </div><div class="line"></div><div class="line"><span class="comment"># jstatd</span></div><div class="line"></div><div class="line">``` bash	</div><div class="line">nohup jstatd -J-Djava.rmi.server.hostname=10.175.132.76 -J-Djava.security.policy=jstatd.all.policy -J-Dcom.sun.management.jmxremote.authenticate=<span class="literal">false</span> -J-Dcom.sun.management.jmxremote.ssl=<span class="literal">false</span> -J-Dcom.sun.management.jmxremote.port=8888 &amp;</div><div class="line">		启动一个守护线程</div><div class="line">	<span class="comment"># java.rmi.server.hostname  jstatd绑定的主机ip地址</span></div><div class="line">	<span class="comment"># com.sun.management.jmxremote.port  jmx的端口地址</span></div><div class="line">	<span class="comment"># java.security.policy    赋予jstatd权限的文件</span></div><div class="line"></div><div class="line">			jstatd.all.policy文件内容</div><div class="line">			grant codebase <span class="string">"file:<span class="variable">$&#123;java.home&#125;</span>/../lib/tools.jar"</span> &#123;</div><div class="line">				permission java.security.AllPermission;</div><div class="line">			&#125;; </div><div class="line"></div><div class="line">	<span class="comment"># 实际如果需要通过VisualVM监控Tomcat，配置catalina.sh</span></div><div class="line">	</div><div class="line">			CATALINA_OPTS=<span class="string">"-Djava.library.path=/usr/local/apr/lib -Dapplication.home=/usr/java/jdk1.8.0_91 -Djava.rmi.server.hostname=114.215.133.86 -Djava.security.policy=jstatd.all.policy -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.port=8888"</span></div></pre></td></tr></table></figure>
-<h1 id="javap"><a href="#javap" class="headerlink" title="javap"></a>javap</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">javap <span class="_">-l</span> -p -c ConfigServiceImpl</div><div class="line">1.l – 打印行数和局部变量</div><div class="line">2.p – 打印包括非public在内的所有类和成员信息</div><div class="line">3.c – 打印方法字节码(可以不添加)</div></pre></td></tr></table></figure>
-<h1 id="jmap"><a href="#jmap" class="headerlink" title="jmap"></a>jmap</h1><p><a href="http://www.hollischuang.com/archives/303" target="_blank" rel="external">点我查看</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">不需要引发 OutOfMemoryErrors 就可以获取堆dump文件的方法  </div><div class="line">1. jmap -dump:live,format=b,file=heap.bin 1354  (sudo su)</div><div class="line">2. 如果切换了用户出现这样的情况：</div><div class="line">	VMVersionMismatchException: Supported versions are 23.25-b01. Target VM is 24.65-b04</div><div class="line">    需要执行update-alternatives --get-selections | grep jinfo</div><div class="line">        jinfo auto     /usr/lib/jvm/java-6-openjdk-amd64/bin/jinfo</div><div class="line">    进行解决 [看我得到详细解答](http://serverfault.duapp.com/questions/653755/jinfo-for-java-7-openjdk-amd64)</div><div class="line">3. jhat heap.bin</div><div class="line">4. http://localhost:7000</div></pre></td></tr></table></figure>
-<h1 id="jhat"><a href="#jhat" class="headerlink" title="jhat"></a>jhat</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">分析hprof文件工具</div><div class="line">1. jvm配置oom的dump文件</div><div class="line">	-XX:+HeapDumpOnOutOfMemoryError  -XX:HeapDumpPath=<span class="variable">$&#123;目录&#125;</span> </div><div class="line">2. jhat java_pid5644.hprof  or  jhat heap.bin</div><div class="line">3. http://localhost:7000</div><div class="line">``` </div><div class="line"></div><div class="line"><span class="comment"># jstack</span></div><div class="line">[Detail](http://www.hollischuang.com/archives/110)</div><div class="line"></div><div class="line">``` bash	</div><div class="line">实时生成hprof文件 </div><div class="line">jstack -F <span class="_">-l</span> 9153 然后通过jhat查看</div></pre></td></tr></table></figure>
-<h1 id="jstat"><a href="#jstat" class="headerlink" title="jstat"></a>jstat</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">实时监控heap size和垃圾回收状况</div><div class="line">jstat -gcutil 17010 250 50   (17010为jvm pid，250表示250毫秒查看一次，50表示持续50次)</div></pre></td></tr></table></figure>]]></content>
+<h1 id="jps"><a href="#jps" class="headerlink" title="jps"></a>jps</h1><blockquote>
+<p>Jps命令主要用来查看运行的java进程</p>
+</blockquote>
+<p>jps -mlv</p>
+<h1 id="jstatd"><a href="#jstatd" class="headerlink" title="jstatd"></a>jstatd</h1><blockquote>
+<p>待研究</p>
+</blockquote>
+<h1 id="javap"><a href="#javap" class="headerlink" title="javap"></a>javap</h1><blockquote>
+<p>javap主要用来查看java.c文件的源代码</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">javap <span class="_">-l</span> -p -c ConfigServiceImpl</div></pre></td></tr></table></figure>
+<ol>
+<li>l – 打印行数和局部变量</li>
+<li>p – 打印包括非public在内的所有类和成员信息</li>
+<li>c – 打印方法字节码(可以不添加)</li>
+</ol>
+<h1 id="jmap"><a href="#jmap" class="headerlink" title="jmap"></a>jmap</h1><blockquote>
+<p>Jmap主要用于打印指定Java进程(或核心文件、远程调试服务器)的共享对象内存映射或堆内存细节。不需要引发OutOfMemoryErrors就可以获取堆dump文件的方法，可以使用jmap生成Heap Dump。然后可以通过Jhat分析。</p>
+</blockquote>
+<ol>
+<li>jmap -dump:live,format=b,file=heap.bin 1354  (sudo su) 其中1354是java进程运行的端口号</li>
+<li><p>如果切换了用户出现这样的情况：<br> VMVersionMismatchException: Supported versions are 23.25-b01. Target VM is 24.65-b04<br> 需要执行</p>
+ <figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">update-alternatives --get-selections | grep jinfo</div><div class="line">jinfo auto /usr/lib/jvm/java-6-openjdk-amd64/bin/jinfo</div></pre></td></tr></table></figure>
+<p> 进行解决 <a href="http://serverfault.duapp.com/questions/653755/jinfo-for-java-7-openjdk-amd64" target="_blank" rel="external">看我得到详细解答</a></p>
+</li>
+<li>jhat heap.bin</li>
+<li>访问<a href="http://localhost:7000" target="_blank" rel="external">http://localhost:7000</a>，即可查看详细内存信息</li>
+</ol>
+<h1 id="jhat"><a href="#jhat" class="headerlink" title="jhat"></a>jhat</h1><blockquote>
+<p>Jhat(Java Heap Analysis Tool)，用于分析java堆得情况的工具。可以分析jmap生成的bin文件，也可以分析hprof文件</p>
+</blockquote>
+<ol>
+<li><p>jvm配置oom的dump文件(catalina.sh)</p>
+<p> -XX:+HeapDumpOnOutOfMemoryError  -XX:HeapDumpPath=${目录} </p>
+</li>
+<li>jhat java_pid5644.hprof 或者 jhat heap.bin</li>
+<li>访问<a href="http://localhost:7000" target="_blank" rel="external">http://localhost:7000</a>，即可查看详细内存信息</li>
+</ol>
+<h1 id="jstack"><a href="#jstack" class="headerlink" title="jstack"></a>jstack</h1><blockquote>
+<p>Jstack生成当前线程的快照，主要是分析线程死锁，请求长时间等待。出现程序死锁，<strong> hung住非常有必要使用 </strong></p>
+</blockquote>
+<p>jstack -F 4064 &gt; a.out (4064是当前java进程运行端口)，如果出现cannot open binary file错误，那么就需要切换到启动该java进程的那个用户。<br>vim a.out 就可以看到具体的线程情况啦</p>
+<h1 id="jstat"><a href="#jstat" class="headerlink" title="jstat"></a>jstat</h1><blockquote>
+<p>实时监控heap size和垃圾回收状况</p>
+</blockquote>
+<p>jstat -gcutil 17010 250 50   (17010为jvm pid，250表示250毫秒查看一次，50表示持续50次)</p>
+]]></content>
     </entry>
     
     <entry>
