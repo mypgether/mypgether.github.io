@@ -4,12 +4,6 @@
   
     
     <entry>
-      <title></title>
-      <url>http://gether.me/google9860f8fa1c83e564/</url>
-      <content type="html"><![CDATA[google-site-verification: google9860f8fa1c83e564.html]]></content>
-    </entry>
-    
-    <entry>
       <title><![CDATA[Mac设置Shadowsocks代理]]></title>
       <url>http://gether.me/2016/07/Mac%E8%AE%BE%E7%BD%AEShadowsocks%E4%BB%A3%E7%90%86/</url>
       <content type="html"><![CDATA[<h1 id="什么是Shadowsocks"><a href="#什么是Shadowsocks" class="headerlink" title="什么是Shadowsocks"></a>什么是Shadowsocks</h1><p><br><br>&emsp;&emsp;Shadowsocks使用Socks5代理，用于保护网络流量。在中国大陆被广泛用于突破防火长城（GFW），以浏览被封锁的内容。在ss之前，通过SSH隧道的方式进行翻墙，但是GFW能够检测到，然后被墙。简单的说通过ss，就能不被GFW墙掉。</p>
