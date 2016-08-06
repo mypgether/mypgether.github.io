@@ -4,65 +4,150 @@
   
     
     <entry>
+      <title><![CDATA[Mac设置Shadowsocks代理]]></title>
+      <url>http://gether.me/2016/07/Mac%E8%AE%BE%E7%BD%AEShadowsocks%E4%BB%A3%E7%90%86/</url>
+      <content type="html"><![CDATA[<h1 id="什么是Shadowsocks"><a href="#什么是Shadowsocks" class="headerlink" title="什么是Shadowsocks"></a>什么是Shadowsocks</h1><p><br><br>&emsp;&emsp;Shadowsocks使用Socks5代理，用于保护网络流量。在中国大陆被广泛用于突破防火长城（GFW），以浏览被封锁的内容。在ss之前，通过SSH隧道的方式进行翻墙，但是GFW能够检测到，然后被墙。简单的说通过ss，就能不被GFW墙掉。</p>
+<p>&emsp;&emsp;下面ss的安装等教程就不再展示了，google一下都能够搜索到。本文主要讲一下Mac终端中使用ss代理。</p>
+<a id="more"></a>
+<h1 id="安装polipo"><a href="#安装polipo" class="headerlink" title="安装polipo"></a>安装polipo</h1><p><br></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ brew install polipo</div></pre></td></tr></table></figure>
+<blockquote>
+<p>如果没有安装homebrew，自行查看<a href="http://brew.sh/" target="_blank" rel="external">官网文档</a></p>
+</blockquote>
+<h1 id="修改plist文件"><a href="#修改plist文件" class="headerlink" title="修改plist文件"></a>修改plist文件</h1><p><br></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ ln -sfv /usr/<span class="built_in">local</span>/opt/polipo/*.plist ~/Library/LaunchAgents</div></pre></td></tr></table></figure>
+<blockquote>
+<p>设置每次启动登录polipo</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ vim ~/Library/LaunchAgents/homebrew.mxcl.polipo.plist</div></pre></td></tr></table></figure>
+<blockquote>
+<p>设置socksParentProxy，如下是已经编辑好的plist文件</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="meta">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">"1.0"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">dict</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Label<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>homebrew.mxcl.polipo<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>RunAtLoad<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>KeepAlive<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">true</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>ProgramArguments<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">array</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">string</span>&gt;</span>/usr/local/opt/polipo/bin/polipo<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">string</span>&gt;</span>socksParentProxy=localhost:1080<span class="tag">&lt;/<span class="name">string</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">array</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- Set `ulimit -n 65536`. The default OS X limit is 256, that's</span></div><div class="line">         not enough for Polipo (displays 'too many files open' errors).</div><div class="line">         It seems like you have no reason to lower this limit</div><div class="line">         (and unlikely will want to raise it). --&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>SoftResourceLimits<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dict</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">key</span>&gt;</span>NumberOfFiles<span class="tag">&lt;/<span class="name">key</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">integer</span>&gt;</span>65536<span class="tag">&lt;/<span class="name">integer</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></div></pre></td></tr></table></figure>
+<h1 id="启动polipo"><a href="#启动polipo" class="headerlink" title="启动polipo"></a>启动polipo</h1><p><br></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.polipo.plist</div><div class="line">$ launchctl load ~/Library/LaunchAgents/homebrew.mxcl.polipo.plist</div></pre></td></tr></table></figure>
+<h1 id="验证是否配置成功"><a href="#验证是否配置成功" class="headerlink" title="验证是否配置成功"></a>验证是否配置成功</h1><p><br></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ curl ip.gs	当前 IP：xx.xx.xx.xx 来自：中国浙江杭州 电信</div><div class="line">$ http_proxy=http://localhost:8123 curl ip.gs	当前 IP：160.16.206.181 来自：日本东京都东京</div></pre></td></tr></table></figure>
+<h1 id="简化配置（设置别名）"><a href="#简化配置（设置别名）" class="headerlink" title="简化配置（设置别名）"></a>简化配置（设置别名）</h1><p><br><br>&emsp;&emsp;将下面命令保存到 <em>~/.bash_profile</em> 文件中；如果使用<a href="http://ohmyz.sh/" target="_blank" rel="external">Oh My Zsh</a>，保存在  <em>~/.zshrc</em> 文件中。 然后source一把即可。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ <span class="built_in">alias</span> hp=<span class="string">"http_proxy=http://localhost:8123"</span></div></pre></td></tr></table></figure>
+<p>&emsp;&emsp;此后可以通过别名操作。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ hp curl ip.gs 当前 IP：160.16.206.181 来自：日本东京都东京</div></pre></td></tr></table></figure>
+<h1 id="Git设置Proxy"><a href="#Git设置Proxy" class="headerlink" title="Git设置Proxy"></a>Git设置Proxy</h1><p><br><br>    是不是发现下载github的比较慢？那就为<a href="/2016/07/Git常见问题/"><font color="red">git设置ss代理</font></a>吧。</p>
+]]></content>
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Git常见问题]]></title>
+      <url>http://gether.me/2016/07/Git%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</url>
+      <content type="html"><![CDATA[<h1 id="Git如何配置多个仓库？"><a href="#Git如何配置多个仓库？" class="headerlink" title="Git如何配置多个仓库？"></a>Git如何配置多个仓库？</h1><p><br></p>
+<h2 id="生成sshkey"><a href="#生成sshkey" class="headerlink" title="生成sshkey"></a>生成sshkey</h2><ul>
+<li><p>终端中输入下面命令</p>
+  <figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ ssh-keygen -t rsa -C <span class="string">"your_mail"</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>然后输入你想要保存的文件名，如id_rsa_gitlab（默认保存/home目录/.ssh/id_rsa文件）</p>
+</li>
+<li><p>然后将公钥复制黏贴到github的ssh key中</p>
+  <figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">$ pbcopy &lt; ~/.ssh/id_rsa_gitlab.pub</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<a id="more"></a>
+<h2 id="为每一个仓库设置独立的配置信息"><a href="#为每一个仓库设置独立的配置信息" class="headerlink" title="为每一个仓库设置独立的配置信息"></a>为每一个仓库设置独立的配置信息</h2><ul>
+<li>git config –local user.email ‘your_mail’</li>
+<li><p>git config –local http.proxy <a href="http://localhost:8123" target="_blank" rel="external">http://localhost:8123</a></p>
+<blockquote>
+<p>设置shadowsockts代理,一般github可以设置一下（如果不清楚ss代理点击<a href="/2016/07/Mac%E8%AE%BE%E7%BD%AEShadowsocks%E4%BB%A3%E7%90%86/"><font color="red">这里</font></a>）</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="如何访问不同的仓库呢"><a href="#如何访问不同的仓库呢" class="headerlink" title="如何访问不同的仓库呢"></a>如何访问不同的仓库呢</h2><ul>
+<li>终端中添加私钥</li>
+</ul>
+<p>可以配置在bash中，这样就没有必要每次都添加，/home目录/.bash_profile;如果用的是zsh，配置在~/.zshrc中</p>
+<ol>
+<li>ssh-add ~/.ssh/id_rsa_github</li>
+<li>ssh-add -l  查看所有添加的私钥</li>
+</ol>
+<ul>
+<li>单独为公司的gitlab设置ssh信息</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">Host gitlab.xxx.com #随便命名</div><div class="line">HostName gitlab.xxx.com</div><div class="line">User git</div><div class="line">Port 22</div><div class="line">IdentityFile ~/.ssh/id_rsa_gitlab</div></pre></td></tr></table></figure>
+<p><br></p>
+<h1 id="切换分支的时候不想commit怎么办"><a href="#切换分支的时候不想commit怎么办" class="headerlink" title="切换分支的时候不想commit怎么办"></a>切换分支的时候不想commit怎么办</h1><p><br><br><strong> git stash </strong></p>
+<blockquote>
+<p>将当前的改动暂存到栈中，或者git stash save “不想提交的内容”<br><strong> git stash list </strong><br>查看所有暂存的改动<br><strong> git stash apply stash@{2} </strong> 或者 <strong> git stash pop stash@{2} </strong><br>恢复stash@{2}的暂存，如果没有写那默认就是最近一次暂存</p>
+</blockquote>
+<p><br></p>
+<h1 id="commit之后不想提交怎么办"><a href="#commit之后不想提交怎么办" class="headerlink" title="commit之后不想提交怎么办"></a>commit之后不想提交怎么办</h1><p><br><br><strong> git reset –hard commit_id </strong></p>
+<blockquote>
+<p>commit_id为你想要回退的版本号id</p>
+</blockquote>
+<h1 id="To-Be-Continue"><a href="#To-Be-Continue" class="headerlink" title="To Be Continue"></a>To Be Continue</h1><p><br><br>今后会持续更新Git的相关使用</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[JVM学习-1]]></title>
       <url>http://gether.me/2016/07/JVM%E5%AD%A6%E4%B9%A0-1/</url>
-      <content type="html"><![CDATA[<h1 id="jvm参数"><a href="#jvm参数" class="headerlink" title="jvm参数"></a>jvm参数</h1><ol>
+      <content type="html"><![CDATA[<h1 id="jvm参数"><a href="#jvm参数" class="headerlink" title="jvm参数"></a>jvm参数</h1><p> <br> </p>
+<ol>
 <li>-Xmx    Java Heap最大值，默认值为物理内存的1/4；</li>
 <li>-Xms    Java Heap初始值，生产机JVM最好将-Xms和-Xmx设为相同值，开发测试机JVM可以保留默认值；</li>
 <li>-Xmn    Java Heap Young区大小，不熟悉最好保留默认值；</li>
 <li>-Xss      每个线程的Stack大小，不熟悉最好保留默认值；</li>
-<li>-XX:PermSize：设定内存的永久保存区域； （java8没有了）</li>
-<li>-XX:MaxPermSize：设定最大内存的永久保存区域；</li>
+<li><p>-XX:PermSize：设定内存的永久保存区域；</p>
+<blockquote>
+<p>java8没有了</p>
+</blockquote>
+</li>
+<li><p>-XX:MaxPermSize：设定最大内存的永久保存区域；</p>
+</li>
 <li>-XX:NewSize：设置JVM堆的‘新生代’的默认大小；</li>
 <li>-XX:MaxNewSize：设置JVM堆的‘新生代’的最大大小； </li>
 </ol>
 <a id="more"></a>
-<h1 id="jps"><a href="#jps" class="headerlink" title="jps"></a>jps</h1><blockquote>
+<h1 id="jps"><a href="#jps" class="headerlink" title="jps"></a>jps</h1><p><br> </p>
 <p>Jps命令主要用来查看运行的java进程</p>
-</blockquote>
 <p>jps -mlv</p>
-<h1 id="jstatd"><a href="#jstatd" class="headerlink" title="jstatd"></a>jstatd</h1><blockquote>
-<p>待研究</p>
-</blockquote>
-<h1 id="javap"><a href="#javap" class="headerlink" title="javap"></a>javap</h1><blockquote>
-<p>javap主要用来查看java.c文件的源代码</p>
-</blockquote>
+<h1 id="jstatd"><a href="#jstatd" class="headerlink" title="jstatd"></a>jstatd</h1><p><br><br>待研究</p>
+<h1 id="javap"><a href="#javap" class="headerlink" title="javap"></a>javap</h1><p><br><br>javap主要用来查看java.c文件的源代码</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">javap <span class="_">-l</span> -p -c ConfigServiceImpl</div></pre></td></tr></table></figure>
 <ol>
 <li>l – 打印行数和局部变量</li>
 <li>p – 打印包括非public在内的所有类和成员信息</li>
 <li>c – 打印方法字节码(可以不添加)</li>
 </ol>
-<h1 id="jmap"><a href="#jmap" class="headerlink" title="jmap"></a>jmap</h1><blockquote>
-<p>Jmap主要用于打印指定Java进程(或核心文件、远程调试服务器)的共享对象内存映射或堆内存细节。不需要引发OutOfMemoryErrors就可以获取堆dump文件的方法，可以使用jmap生成Heap Dump。然后可以通过Jhat分析。</p>
-</blockquote>
+<h1 id="jmap"><a href="#jmap" class="headerlink" title="jmap"></a>jmap</h1><p><br><br>Jmap主要用于打印指定Java进程(或核心文件、远程调试服务器)的共享对象内存映射或堆内存细节。不需要引发<strong> OutOfMemoryErrors </strong>就可以获取堆dump文件的方法，可以使用jmap生成Heap Dump。然后可以通过Jhat分析。</p>
 <ol>
-<li>jmap -dump:live,format=b,file=heap.bin 1354  (sudo su) 其中1354是java进程运行的端口号</li>
-<li><p>如果切换了用户出现这样的情况：<br> VMVersionMismatchException: Supported versions are 23.25-b01. Target VM is 24.65-b04<br> 需要执行</p>
+<li><p><strong> jmap -dump:live,format=b,file=heap.bin 1354 </strong></p>
+<blockquote>
+<p>其中1354是java进程运行的端口号，需要切换到启动该java进程的用户。如果切换了用户出现这样的情况：<br> VMVersionMismatchException: Supported versions are 23.25-b01. Target VM is 24.65-b04需要执行</p>
  <figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">update-alternatives --get-selections | grep jinfo</div><div class="line">jinfo auto /usr/lib/jvm/java-6-openjdk-amd64/bin/jinfo</div></pre></td></tr></table></figure>
-<p> 进行解决 <a href="http://serverfault.duapp.com/questions/653755/jinfo-for-java-7-openjdk-amd64" target="_blank" rel="external">看我得到详细解答</a></p>
+</blockquote>
+<p> 进行解决 <a href="http://serverfault.duapp.com/questions/653755/jinfo-for-java-7-openjdk-amd64" target="_blank" rel="external">详见</a></p>
 </li>
-<li>jhat heap.bin</li>
+<li><p>jhat heap.bin</p>
+</li>
 <li>访问<a href="http://localhost:7000" target="_blank" rel="external">http://localhost:7000</a>，即可查看详细内存信息</li>
 </ol>
-<h1 id="jhat"><a href="#jhat" class="headerlink" title="jhat"></a>jhat</h1><blockquote>
-<p>Jhat(Java Heap Analysis Tool)，用于分析java堆得情况的工具。可以分析jmap生成的bin文件，也可以分析hprof文件</p>
-</blockquote>
+<h1 id="jhat"><a href="#jhat" class="headerlink" title="jhat"></a>jhat</h1><p><br><br>Jhat(Java Heap Analysis Tool)，用于分析java堆得情况的工具。可以分析jmap生成的bin文件，也可以分析hprof文件</p>
 <ol>
 <li><p>jvm配置oom的dump文件(catalina.sh)</p>
-<p> -XX:+HeapDumpOnOutOfMemoryError  -XX:HeapDumpPath=${目录} </p>
+<p> <strong> -XX:+HeapDumpOnOutOfMemoryError  -XX:HeapDumpPath=${目录} </strong></p>
 </li>
 <li>jhat java_pid5644.hprof 或者 jhat heap.bin</li>
 <li>访问<a href="http://localhost:7000" target="_blank" rel="external">http://localhost:7000</a>，即可查看详细内存信息</li>
 </ol>
-<h1 id="jstack"><a href="#jstack" class="headerlink" title="jstack"></a>jstack</h1><blockquote>
-<p>Jstack生成当前线程的快照，主要是分析线程死锁，请求长时间等待。出现程序死锁，<strong> hung住非常有必要使用 </strong></p>
+<h1 id="jstack"><a href="#jstack" class="headerlink" title="jstack"></a>jstack</h1><p><br><br>Jstack生成当前线程的快照，主要是分析线程死锁，请求长时间等待。出现程序死锁，<strong> hung住的时候非常有必要使用这个命令！！！ </strong></p>
+<p><strong> jstack -F 4064 &gt; a.out </strong></p>
+<blockquote>
+<p>4064是当前java进程运行端口，如果出现cannot open binary file错误，那么就需要切换到启动该java进程的那个用户。</p>
 </blockquote>
-<p>jstack -F 4064 &gt; a.out (4064是当前java进程运行端口)，如果出现cannot open binary file错误，那么就需要切换到启动该java进程的那个用户。<br>vim a.out 就可以看到具体的线程情况啦</p>
-<h1 id="jstat"><a href="#jstat" class="headerlink" title="jstat"></a>jstat</h1><blockquote>
-<p>实时监控heap size和垃圾回收状况</p>
+<p>vim a.out 就可以看到具体的线程情况啦</p>
+<h1 id="jstat"><a href="#jstat" class="headerlink" title="jstat"></a>jstat</h1><p><br><br>实时监控heap size和垃圾回收状况</p>
+<p><strong> jstat -gcutil 17010 250 50 </strong></p>
+<blockquote>
+<p>17010为jvm pid，250表示250毫秒查看一次，50表示持续50次</p>
 </blockquote>
-<p>jstat -gcutil 17010 250 50   (17010为jvm pid，250表示250毫秒查看一次，50表示持续50次)</p>
 ]]></content>
     </entry>
     
