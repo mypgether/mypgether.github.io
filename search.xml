@@ -4,6 +4,45 @@
   
     
     <entry>
+      <title><![CDATA[Spring中定时任务的实现方式]]></title>
+      <url>http://gether.me/2016/08/Spring%E4%B8%AD%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/</url>
+      <content type="html"><![CDATA[<h1 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h1><h2 id="实现的技术"><a href="#实现的技术" class="headerlink" title="实现的技术"></a>实现的技术</h2><ol>
+<li><p>Java自带的java.util.Timer类。可以按照某一个频度执行，但不能在指定时间运行。</p>
+</li>
+<li><p>spring自带的task: 轻量级的quartz</p>
+</li>
+<li><p>Quartz: 相对task强大一些，对于服务器集群环境，可以保证仅一台服务器执行定时任务</p>
+</li>
+</ol>
+<a id="more"></a>
+<h2 id="作业类的继承方式"><a href="#作业类的继承方式" class="headerlink" title="作业类的继承方式"></a>作业类的继承方式</h2><ol>
+<li><p>作业类继承指定的作业类基类： quartz中继<br> org.springframework.scheduling.quartz.QuartzJobBean;<br> Timer中继承java.util.TimerTask</p>
+</li>
+<li><p>作业类是普通的java类，不需要继承自任何基类</p>
+</li>
+</ol>
+<h2 id="调度时间来讲"><a href="#调度时间来讲" class="headerlink" title="调度时间来讲"></a>调度时间来讲</h2><ol>
+<li><p>每隔指定时间则触发一次，quartz中的<br> org.springframework.scheduling.quartz.SimpleTriggerBean</p>
+</li>
+<li><p>每到指定时间则触发一次，quartz中的<br> org.springframework.scheduling.quartz.CronTriggerBean<br><br></p>
+</li>
+</ol>
+<h1 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h1><p><br><br>&emsp;&emsp;下面就Quartz和Spring task来详细讲解一下使用方式，都是介绍作业类是普通的java类的实现方式。</p>
+<h2 id="Spring-Task"><a href="#Spring-Task" class="headerlink" title="Spring Task"></a>Spring Task</h2><p>&emsp;&emsp;配置如下即可</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">&lt;!-- 定义一个ThreadPoolTaskScheduler,并可以指定线程池的大小，即pool-size.所有任务队列都将会在指定大小的线程池中运行 --&gt;</div><div class="line">&lt;task:scheduler id=<span class="string">"schedulerOfTask"</span> pool-size=<span class="string">"40"</span>/&gt;</div><div class="line">&lt;task:scheduled-tasks scheduler=<span class="string">"schedulerOfTask"</span>&gt;</div><div class="line">&lt;!-- 每天0点10分，执行expiredTask Bean中的methodName方法 --&gt;</div><div class="line">    &lt;task:scheduled ref=<span class="string">"expiredTask"</span> method=<span class="string">"methodName"</span> cron=<span class="string">"0 10 0 * * ?"</span>/&gt;</div><div class="line">&lt;!-- 每隔30s，执行expiredTask2 Bean中的methodName方法 --&gt;</div><div class="line">    &lt;task:scheduled ref=<span class="string">"expiredTask2"</span> method=<span class="string">"methodName"</span> fixed-rate=<span class="string">"10000"</span> fixed-rate=<span class="string">"30000"</span>/&gt;</div><div class="line">&lt;/task:scheduled-tasks&gt;</div><div class="line"></div><div class="line">&lt;!-- 任务类 --&gt;</div><div class="line">&lt;bean id=<span class="string">"expiredTask"</span> class=<span class="string">"com.gether.test.task.ExpiredTask"</span>&gt;</div><div class="line">    &lt;property name=<span class="string">"runJob"</span> value=<span class="string">"true"</span>/&gt;</div><div class="line">&lt;/bean&gt;</div><div class="line">&lt;bean id=<span class="string">"expiredTask2"</span> class=<span class="string">"com.gether.test.task.ExpiredTask2"</span>&gt;</div><div class="line">    &lt;property name=<span class="string">"runJob"</span> value=<span class="string">"true"</span>/&gt;</div><div class="line">&lt;/bean&gt;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>initial-delay:  表示第一次运行前需要延迟的时间，单位是毫秒</p>
+<p>fixed-delay:  表示从上一个任务完成到下一个任务开始的间隔, 单位是毫秒</p>
+<p>fixed-rate:  表示从上一个任务开始到下一个任务开始的间隔, 单位是毫秒（如果某次任务开始时上次任务还没有结束，那么在上次任务执行完成时，当前任务会立即执行）</p>
+</blockquote>
+<h2 id="Quartz"><a href="#Quartz" class="headerlink" title="Quartz"></a>Quartz</h2><h3 id="配置调度工厂"><a href="#配置调度工厂" class="headerlink" title="配置调度工厂"></a>配置调度工厂</h3><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">&lt;bean id=<span class="string">"startQuartz"</span> lazy-init=<span class="string">"false"</span> autowire=<span class="string">"no"</span> class=<span class="string">"org.springframework.scheduling.quartz.SchedulerFactoryBean"</span>&gt;</div><div class="line">    &lt;property name=<span class="string">"triggers"</span>&gt;</div><div class="line">	&lt;list&gt;  </div><div class="line">	&lt;ref bean=<span class="string">"cronTrigger"</span> /&gt;</div><div class="line">	&lt;ref bean=<span class="string">"simpleTrigger"</span> /&gt;</div><div class="line">	&lt;/list&gt;  </div><div class="line">    &lt;/property&gt;</div><div class="line">&lt;/bean&gt;</div></pre></td></tr></table></figure>
+<h3 id="配置触发器"><a href="#配置触发器" class="headerlink" title="配置触发器"></a>配置触发器</h3><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">&lt;bean id=<span class="string">"cronTrigger"</span> class=<span class="string">"org.springframework.scheduling.quartz.CronTriggerFactoryBean"</span>&gt;</div><div class="line">    &lt;property name=<span class="string">"jobDetail"</span>&gt;</div><div class="line">        &lt;ref bean=<span class="string">"cornTask"</span> /&gt;</div><div class="line">    &lt;/property&gt;</div><div class="line">    &lt;property name=<span class="string">"cronExpression"</span>&gt;</div><div class="line">        &lt;value&gt;*/30 * * * * ?&lt;/value&gt;</div><div class="line">    &lt;/property&gt;</div><div class="line">&lt;/bean&gt;</div><div class="line"></div><div class="line">&lt;bean id=<span class="string">"simpleTrigger"</span> class=<span class="string">"org.springframework.scheduling.quartz.SimpleTriggerBean"</span>&gt;  </div><div class="line">	&lt;property name=<span class="string">"jobDetail"</span> ref=<span class="string">"beanTask"</span> /&gt;  </div><div class="line">	&lt;property name=<span class="string">"startDelay"</span> value=<span class="string">"0"</span> /&gt;</div><div class="line">	&lt;!-- 每2秒调度一次 --&gt;  </div><div class="line">	&lt;property name=<span class="string">"repeatInterval"</span> value=<span class="string">"2000"</span> /&gt;</div><div class="line">&lt;/bean&gt;  </div><div class="line"></div><div class="line">&lt;bean id=<span class="string">"beanTask"</span> class=<span class="string">"org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"</span>&gt;</div><div class="line">    &lt;!-- 调用的类 --&gt;</div><div class="line">    &lt;property name=<span class="string">"targetObject"</span>&gt;</div><div class="line">        &lt;ref bean=<span class="string">"taskService"</span> /&gt;</div><div class="line">    &lt;/property&gt;</div><div class="line">    &lt;!-- 调用类中的方法 --&gt;</div><div class="line">    &lt;property name=<span class="string">"targetMethod"</span>&gt;</div><div class="line">        &lt;value&gt;beanMethod&lt;/value&gt;</div><div class="line">    &lt;/property&gt;</div><div class="line">&lt;/bean&gt;</div><div class="line"></div><div class="line">&lt;bean id=<span class="string">"taskService"</span> class=<span class="string">"com.gether.test.task.impl.TaskServiceImpl"</span> /&gt;</div></pre></td></tr></table></figure>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p><br><br>&emsp;&emsp;根据项目的需要选择不同的方案，个人一般建议使用Spring Task实现定时任务，如果有集群的需要，某些定时任务可以仅配置一台机器执行。</p>
+<p>&emsp;&emsp;如果使用Quartz，采用数据库存储定时任务等信息的话，那么你的数据将需要导入Quartz相关的一些表，显得数据表比较杂乱，不建议使用。可以采用RAMJobStore的方式。</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[Mac设置Shadowsocks代理]]></title>
       <url>http://gether.me/2016/07/Mac%E8%AE%BE%E7%BD%AEShadowsocks%E4%BB%A3%E7%90%86/</url>
       <content type="html"><![CDATA[<h1 id="什么是Shadowsocks"><a href="#什么是Shadowsocks" class="headerlink" title="什么是Shadowsocks"></a>什么是Shadowsocks</h1><p><br><br>&emsp;&emsp;Shadowsocks使用Socks5代理，用于保护网络流量。在中国大陆被广泛用于突破防火长城（GFW），以浏览被封锁的内容。在ss之前，通过SSH隧道的方式进行翻墙，但是GFW能够检测到，然后被墙。简单的说通过ss，就能不被GFW墙掉。</p>
@@ -38,7 +77,7 @@
     
     <entry>
       <title><![CDATA[Git常见问题]]></title>
-      <url>http://gether.me/2016/07/Git%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</url>
+      <url>http://gether.me/2016/08/Git%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</url>
       <content type="html"><![CDATA[<h1 id="Git如何配置多个仓库？"><a href="#Git如何配置多个仓库？" class="headerlink" title="Git如何配置多个仓库？"></a>Git如何配置多个仓库？</h1><p><br></p>
 <h2 id="生成sshkey"><a href="#生成sshkey" class="headerlink" title="生成sshkey"></a>生成sshkey</h2><ul>
 <li><p>终端中输入下面命令</p>
