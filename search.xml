@@ -81,6 +81,27 @@
 <blockquote>
 <p>commit_id为你想要回退的版本号id</p>
 </blockquote>
+<p><br></p>
+<h1 id="rebase和merge区别"><a href="#rebase和merge区别" class="headerlink" title="rebase和merge区别"></a>rebase和merge区别</h1><p><br><br>Git提交的Network中，我们会经常会碰到很乱的commit，多个分支交错在一起。这个时候我们可能要思考是否使用rebase进行代码合并了。先来介绍一下最常用的merge合并。</p>
+<h2 id="merge合并"><a href="#merge合并" class="headerlink" title="merge合并"></a>merge合并</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git checkout master</div><div class="line">git merge experiment</div><div class="line">git push origin master</div></pre></td></tr></table></figure>
+<blockquote>
+<p>merge合并会产生一个新的commit，合并后的代码网络图如下图所示：</p>
+</blockquote>
+<p><img src="http://ob6mbs2z5.bkt.clouddn.com/git%20merge.png" alt="git merge"></p>
+<h2 id="rebase合并"><a href="#rebase合并" class="headerlink" title="rebase合并"></a>rebase合并</h2><figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">git checkout experiment</div><div class="line">git rebase master</div><div class="line">git checkout master</div><div class="line">git merge experiment</div><div class="line">git push origin master</div></pre></td></tr></table></figure>
+<blockquote>
+<p>rebase其实将commit重新排列了。</p>
+<p><strong> 找到experiment、master的最近公共祖先(最近的相同的commitid)，并且将experiment，在commitid之后的提交全部放到了master最后一次commit之后，然后进行合并。 </strong></p>
+<p>如果第二步的合并过程有冲突，那就解决冲突，然后输入命令<strong> git rebase –continue </strong></p>
+<p>合并后的代码网络图如下图所示：</p>
+</blockquote>
+<p><img src="http://ob6mbs2z5.bkt.clouddn.com/git%20rebase.png" alt="git rebase"></p>
+<h2 id="使用rebase需要注意的地方"><a href="#使用rebase需要注意的地方" class="headerlink" title="使用rebase需要注意的地方"></a>使用rebase需要注意的地方</h2><ol>
+<li><p>rebase合并的分支(experiment)一定是没有提交到远程服务器的分支,一旦提交远程服务器，那么commmit的顺序就会被更改，导致他人使用的时候出错</p>
+</li>
+<li><p>git pull –rebase 通过rebase进行拉取代码，可以较少不必要的提交。git pull 默认使用git fetch+git merge操作。</p>
+</li>
+</ol>
 <h1 id="To-Be-Continue"><a href="#To-Be-Continue" class="headerlink" title="To Be Continue"></a>To Be Continue</h1><p><br><br>今后会持续更新Git的相关使用</p>
 ]]></content>
     </entry>
