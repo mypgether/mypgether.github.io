@@ -4,6 +4,16 @@
   
     
     <entry>
+      <title><![CDATA[常用的代码片段]]></title>
+      <url>http://gether.me/2016/09/%E5%B8%B8%E7%94%A8%E7%9A%84%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/</url>
+      <content type="html"><![CDATA[<h1 id="获取UTC时间"><a href="#获取UTC时间" class="headerlink" title="获取UTC时间"></a>获取UTC时间</h1><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">Calendar cal = Calendar.getInstance();</div><div class="line">// utc时间和本地时间差</div><div class="line">int zoneOffset = cal.get(Calendar.ZONE_OFFSET);</div><div class="line">// 夏令时差</div><div class="line">int dstOffset = cal.get(Calendar.DST_OFFSET);</div><div class="line">cal.add(Calendar.MILLISECOND, -(zoneOffset + dstOffset));</div><div class="line">System.out.println(cal.getTimeInMillis());</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p><br></p>
+<h1 id="获取Spring容器的bean"><a href="#获取Spring容器的bean" class="headerlink" title="获取Spring容器的bean"></a>获取Spring容器的bean</h1><h2 id="方法1"><a href="#方法1" class="headerlink" title="方法1"></a>方法1</h2><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">ContextLoaderListener.getCurrentWebApplicationContext().getBean(<span class="string">"beanName"</span>);</div></pre></td></tr></table></figure>
+<h2 id="方法2"><a href="#方法2" class="headerlink" title="方法2"></a>方法2</h2><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">public class SpringUtil implements ApplicationContextAware &#123;</div><div class="line"></div><div class="line">	private static ApplicationContext applicationContext;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void <span class="built_in">set</span>ApplicationContext(ApplicationContext arg0) throws BeansException &#123;</div><div class="line">		SpringUtil.applicationContext = arg0;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public static Object getBean(String name) &#123;</div><div class="line">		<span class="built_in">return</span> applicationContext.getBean(name);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public static String getMessage(String code, Object[] args, Locale locale) &#123;</div><div class="line">		try &#123;</div><div class="line">			<span class="built_in">return</span> applicationContext.getMessage(code, args, locale);</div><div class="line">		&#125; catch (NoSuchMessageException e) &#123;</div><div class="line">			<span class="built_in">return</span> <span class="string">"'"</span> + code + <span class="string">"' is not defined in "</span> + locale.toString();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[Spring中定时任务的实现方式]]></title>
       <url>http://gether.me/2016/08/Spring%E4%B8%AD%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/</url>
       <content type="html"><![CDATA[<h1 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h1><h2 id="实现的技术"><a href="#实现的技术" class="headerlink" title="实现的技术"></a>实现的技术</h2><ol>

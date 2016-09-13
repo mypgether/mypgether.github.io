@@ -88,7 +88,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="spring,定时任务," />
+  <meta name="keywords" content="代码," />
 
 
 
@@ -104,31 +104,16 @@
 
 
 
-<meta name="description" content="分类实现的技术
-Java自带的java.util.Timer类。可以按照某一个频度执行，但不能在指定时间运行。
-
-spring自带的task: 轻量级的quartz
-
-Quartz: 相对task强大一些，对于服务器集群环境，可以保证仅一台服务器执行定时任务">
+<meta name="description" content="获取UTC时间Calendar cal = Calendar.getInstance();// utc时间和本地时间差int zoneOffset = cal.get(Calendar.ZONE_OFFSET);// 夏令时差int dstOffset = cal.get(Calendar.DST_OFFSET);cal.add(Calendar.MILLISECOND, -(zoneOffset">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring中定时任务的实现方式">
-<meta property="og:url" content="http://gether.me/2016/08/Spring中定时任务的实现方式/index.html">
+<meta property="og:title" content="常用的代码片段">
+<meta property="og:url" content="http://gether.me/2016/09/常用的代码片段/index.html">
 <meta property="og:site_name" content="gether">
-<meta property="og:description" content="分类实现的技术
-Java自带的java.util.Timer类。可以按照某一个频度执行，但不能在指定时间运行。
-
-spring自带的task: 轻量级的quartz
-
-Quartz: 相对task强大一些，对于服务器集群环境，可以保证仅一台服务器执行定时任务">
-<meta property="og:updated_time" content="2016-08-13T13:46:35.000Z">
+<meta property="og:description" content="获取UTC时间Calendar cal = Calendar.getInstance();// utc时间和本地时间差int zoneOffset = cal.get(Calendar.ZONE_OFFSET);// 夏令时差int dstOffset = cal.get(Calendar.DST_OFFSET);cal.add(Calendar.MILLISECOND, -(zoneOffset">
+<meta property="og:updated_time" content="2016-09-13T01:24:58.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spring中定时任务的实现方式">
-<meta name="twitter:description" content="分类实现的技术
-Java自带的java.util.Timer类。可以按照某一个频度执行，但不能在指定时间运行。
-
-spring自带的task: 轻量级的quartz
-
-Quartz: 相对task强大一些，对于服务器集群环境，可以保证仅一台服务器执行定时任务">
+<meta name="twitter:title" content="常用的代码片段">
+<meta name="twitter:description" content="获取UTC时间Calendar cal = Calendar.getInstance();// utc时间和本地时间差int zoneOffset = cal.get(Calendar.ZONE_OFFSET);// 夏令时差int dstOffset = cal.get(Calendar.DST_OFFSET);cal.add(Calendar.MILLISECOND, -(zoneOffset">
 
 
 
@@ -149,9 +134,9 @@ Quartz: 相对task强大一些，对于服务器集群环境，可以保证仅�
 
 
 
-  <link rel="canonical" href="http://gether.me/2016/08/Spring中定时任务的实现方式/"/>
+  <link rel="canonical" href="http://gether.me/2016/09/常用的代码片段/"/>
 
-  <title> Spring中定时任务的实现方式 | gether </title>
+  <title> 常用的代码片段 | gether </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -332,7 +317,7 @@ Quartz: 相对task强大一些，对于服务器集群环境，可以保证仅�
             
             
               
-                Spring中定时任务的实现方式
+                常用的代码片段
               
             
           </h1>
@@ -344,8 +329,8 @@ Quartz: 相对task强大一些，对于服务器集群环境，可以保证仅�
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-08-13T21:46:35+08:00" content="2016-08-13">
-              2016-08-13
+            <time itemprop="dateCreated" datetime="2016-09-13T09:24:58+08:00" content="2016-09-13">
+              2016-09-13
             </time>
           </span>
 
@@ -358,8 +343,8 @@ Quartz: 相对task强大一些，对于服务器集群环境，可以保证仅�
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/定时任务/" itemprop="url" rel="index">
-                    <span itemprop="name">定时任务</span>
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
                   </a>
                 </span>
 
@@ -374,8 +359,8 @@ Quartz: 相对task强大一些，对于服务器集群环境，可以保证仅�
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/08/Spring中定时任务的实现方式/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/08/Spring中定时任务的实现方式/" itemprop="commentsCount"></span>
+                <a href="/2016/09/常用的代码片段/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2016/09/常用的代码片段/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -385,7 +370,7 @@ Quartz: 相对task强大一些，对于服务器集群环境，可以保证仅�
 
           
           
-             <span id="/2016/08/Spring中定时任务的实现方式/" class="leancloud_visitors" data-flag-title="Spring中定时任务的实现方式">
+             <span id="/2016/09/常用的代码片段/" class="leancloud_visitors" data-flag-title="常用的代码片段">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -407,40 +392,11 @@ Quartz: 相对task强大一些，对于服务器集群环境，可以保证仅�
       
 
       
-        <h1 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h1><h2 id="实现的技术"><a href="#实现的技术" class="headerlink" title="实现的技术"></a>实现的技术</h2><ol>
-<li><p>Java自带的java.util.Timer类。可以按照某一个频度执行，但不能在指定时间运行。</p>
-</li>
-<li><p>spring自带的task: 轻量级的quartz</p>
-</li>
-<li><p>Quartz: 相对task强大一些，对于服务器集群环境，可以保证仅一台服务器执行定时任务</p>
-</li>
-</ol>
+        <h1 id="获取UTC时间"><a href="#获取UTC时间" class="headerlink" title="获取UTC时间"></a>获取UTC时间</h1><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">Calendar cal = Calendar.getInstance();</div><div class="line">// utc时间和本地时间差</div><div class="line">int zoneOffset = cal.get(Calendar.ZONE_OFFSET);</div><div class="line">// 夏令时差</div><div class="line">int dstOffset = cal.get(Calendar.DST_OFFSET);</div><div class="line">cal.add(Calendar.MILLISECOND, -(zoneOffset + dstOffset));</div><div class="line">System.out.println(cal.getTimeInMillis());</div></pre></td></tr></table></figure>
 <a id="more"></a>
-<h2 id="作业类的继承方式"><a href="#作业类的继承方式" class="headerlink" title="作业类的继承方式"></a>作业类的继承方式</h2><ol>
-<li><p>作业类继承指定的作业类基类： quartz中继<br> org.springframework.scheduling.quartz.QuartzJobBean;<br> Timer中继承java.util.TimerTask</p>
-</li>
-<li><p>作业类是普通的java类，不需要继承自任何基类</p>
-</li>
-</ol>
-<h2 id="调度时间来讲"><a href="#调度时间来讲" class="headerlink" title="调度时间来讲"></a>调度时间来讲</h2><ol>
-<li><p>每隔指定时间则触发一次，quartz中的<br> org.springframework.scheduling.quartz.SimpleTriggerBean</p>
-</li>
-<li><p>每到指定时间则触发一次，quartz中的<br> org.springframework.scheduling.quartz.CronTriggerBean<br><br></p>
-</li>
-</ol>
-<h1 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h1><p><br><br>&emsp;&emsp;下面就Quartz和Spring task来详细讲解一下使用方式，都是介绍作业类是普通的java类的实现方式。</p>
-<h2 id="Spring-Task"><a href="#Spring-Task" class="headerlink" title="Spring Task"></a>Spring Task</h2><p>&emsp;&emsp;配置如下即可</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">&lt;!-- 定义一个ThreadPoolTaskScheduler,并可以指定线程池的大小，即pool-size.所有任务队列都将会在指定大小的线程池中运行 --&gt;</div><div class="line">&lt;task:scheduler id=<span class="string">"schedulerOfTask"</span> pool-size=<span class="string">"40"</span>/&gt;</div><div class="line">&lt;task:scheduled-tasks scheduler=<span class="string">"schedulerOfTask"</span>&gt;</div><div class="line">&lt;!-- 每天0点10分，执行expiredTask Bean中的methodName方法 --&gt;</div><div class="line">    &lt;task:scheduled ref=<span class="string">"expiredTask"</span> method=<span class="string">"methodName"</span> cron=<span class="string">"0 10 0 * * ?"</span>/&gt;</div><div class="line">&lt;!-- 每隔30s，执行expiredTask2 Bean中的methodName方法 --&gt;</div><div class="line">    &lt;task:scheduled ref=<span class="string">"expiredTask2"</span> method=<span class="string">"methodName"</span> fixed-rate=<span class="string">"10000"</span> fixed-rate=<span class="string">"30000"</span>/&gt;</div><div class="line">&lt;/task:scheduled-tasks&gt;</div><div class="line"></div><div class="line">&lt;!-- 任务类 --&gt;</div><div class="line">&lt;bean id=<span class="string">"expiredTask"</span> class=<span class="string">"com.gether.test.task.ExpiredTask"</span>&gt;</div><div class="line">    &lt;property name=<span class="string">"runJob"</span> value=<span class="string">"true"</span>/&gt;</div><div class="line">&lt;/bean&gt;</div><div class="line">&lt;bean id=<span class="string">"expiredTask2"</span> class=<span class="string">"com.gether.test.task.ExpiredTask2"</span>&gt;</div><div class="line">    &lt;property name=<span class="string">"runJob"</span> value=<span class="string">"true"</span>/&gt;</div><div class="line">&lt;/bean&gt;</div></pre></td></tr></table></figure>
-<blockquote>
-<p>initial-delay:  表示第一次运行前需要延迟的时间，单位是毫秒</p>
-<p>fixed-delay:  表示从上一个任务完成到下一个任务开始的间隔, 单位是毫秒</p>
-<p>fixed-rate:  表示从上一个任务开始到下一个任务开始的间隔, 单位是毫秒（如果某次任务开始时上次任务还没有结束，那么在上次任务执行完成时，当前任务会立即执行）</p>
-</blockquote>
-<h2 id="Quartz"><a href="#Quartz" class="headerlink" title="Quartz"></a>Quartz</h2><h3 id="配置调度工厂"><a href="#配置调度工厂" class="headerlink" title="配置调度工厂"></a>配置调度工厂</h3><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">&lt;bean id=<span class="string">"startQuartz"</span> lazy-init=<span class="string">"false"</span> autowire=<span class="string">"no"</span> class=<span class="string">"org.springframework.scheduling.quartz.SchedulerFactoryBean"</span>&gt;</div><div class="line">    &lt;property name=<span class="string">"triggers"</span>&gt;</div><div class="line">	&lt;list&gt;  </div><div class="line">	&lt;ref bean=<span class="string">"cronTrigger"</span> /&gt;</div><div class="line">	&lt;ref bean=<span class="string">"simpleTrigger"</span> /&gt;</div><div class="line">	&lt;/list&gt;  </div><div class="line">    &lt;/property&gt;</div><div class="line">&lt;/bean&gt;</div></pre></td></tr></table></figure>
-<h3 id="配置触发器"><a href="#配置触发器" class="headerlink" title="配置触发器"></a>配置触发器</h3><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">&lt;bean id=<span class="string">"cronTrigger"</span> class=<span class="string">"org.springframework.scheduling.quartz.CronTriggerFactoryBean"</span>&gt;</div><div class="line">    &lt;property name=<span class="string">"jobDetail"</span>&gt;</div><div class="line">        &lt;ref bean=<span class="string">"cornTask"</span> /&gt;</div><div class="line">    &lt;/property&gt;</div><div class="line">    &lt;property name=<span class="string">"cronExpression"</span>&gt;</div><div class="line">        &lt;value&gt;*/30 * * * * ?&lt;/value&gt;</div><div class="line">    &lt;/property&gt;</div><div class="line">&lt;/bean&gt;</div><div class="line"></div><div class="line">&lt;bean id=<span class="string">"simpleTrigger"</span> class=<span class="string">"org.springframework.scheduling.quartz.SimpleTriggerBean"</span>&gt;  </div><div class="line">	&lt;property name=<span class="string">"jobDetail"</span> ref=<span class="string">"beanTask"</span> /&gt;  </div><div class="line">	&lt;property name=<span class="string">"startDelay"</span> value=<span class="string">"0"</span> /&gt;</div><div class="line">	&lt;!-- 每2秒调度一次 --&gt;  </div><div class="line">	&lt;property name=<span class="string">"repeatInterval"</span> value=<span class="string">"2000"</span> /&gt;</div><div class="line">&lt;/bean&gt;  </div><div class="line"></div><div class="line">&lt;bean id=<span class="string">"beanTask"</span> class=<span class="string">"org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"</span>&gt;</div><div class="line">    &lt;!-- 调用的类 --&gt;</div><div class="line">    &lt;property name=<span class="string">"targetObject"</span>&gt;</div><div class="line">        &lt;ref bean=<span class="string">"taskService"</span> /&gt;</div><div class="line">    &lt;/property&gt;</div><div class="line">    &lt;!-- 调用类中的方法 --&gt;</div><div class="line">    &lt;property name=<span class="string">"targetMethod"</span>&gt;</div><div class="line">        &lt;value&gt;beanMethod&lt;/value&gt;</div><div class="line">    &lt;/property&gt;</div><div class="line">&lt;/bean&gt;</div><div class="line"></div><div class="line">&lt;bean id=<span class="string">"taskService"</span> class=<span class="string">"com.gether.test.task.impl.TaskServiceImpl"</span> /&gt;</div></pre></td></tr></table></figure>
-<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p><br><br>&emsp;&emsp;根据项目的需要选择不同的方案，个人一般建议使用Spring Task实现定时任务，如果有集群的需要，某些定时任务可以仅配置一台机器执行。</p>
-<p>&emsp;&emsp;如果使用Quartz，采用数据库存储定时任务等信息的话，那么你的数据将需要导入Quartz相关的一些表，显得数据表比较杂乱，不建议使用。可以采用RAMJobStore的方式。</p>
-
+<p><br></p>
+<h1 id="获取Spring容器的bean"><a href="#获取Spring容器的bean" class="headerlink" title="获取Spring容器的bean"></a>获取Spring容器的bean</h1><h2 id="方法1"><a href="#方法1" class="headerlink" title="方法1"></a>方法1</h2><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">ContextLoaderListener.getCurrentWebApplicationContext().getBean(<span class="string">"beanName"</span>);</div></pre></td></tr></table></figure>
+<h2 id="方法2"><a href="#方法2" class="headerlink" title="方法2"></a>方法2</h2><figure class="highlight bash"><table><tr><td class="code"><pre><div class="line">public class SpringUtil implements ApplicationContextAware &#123;</div><div class="line"></div><div class="line">	private static ApplicationContext applicationContext;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void <span class="built_in">set</span>ApplicationContext(ApplicationContext arg0) throws BeansException &#123;</div><div class="line">		SpringUtil.applicationContext = arg0;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public static Object getBean(String name) &#123;</div><div class="line">		<span class="built_in">return</span> applicationContext.getBean(name);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public static String getMessage(String code, Object[] args, Locale locale) &#123;</div><div class="line">		try &#123;</div><div class="line">			<span class="built_in">return</span> applicationContext.getMessage(code, args, locale);</div><div class="line">		&#125; catch (NoSuchMessageException e) &#123;</div><div class="line">			<span class="built_in">return</span> <span class="string">"'"</span> + code + <span class="string">"' is not defined in "</span> + locale.toString();</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
       
     </div>
 
@@ -462,9 +418,7 @@ Quartz: 相对task强大一些，对于服务器集群环境，可以保证仅�
       
         <div class="post-tags">
           
-            <a href="/tags/spring/" rel="tag">#spring</a>
-          
-            <a href="/tags/定时任务/" rel="tag">#定时任务</a>
+            <a href="/tags/代码/" rel="tag">#代码</a>
           
         </div>
       
@@ -473,17 +427,13 @@ Quartz: 相对task强大一些，对于服务器集群环境，可以保证仅�
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/07/Mac设置Shadowsocks代理/" rel="next" title="Mac设置Shadowsocks代理">
-                <i class="fa fa-chevron-left"></i> Mac设置Shadowsocks代理
+              <a href="/2016/08/Spring中定时任务的实现方式/" rel="next" title="Spring中定时任务的实现方式">
+                <i class="fa fa-chevron-left"></i> Spring中定时任务的实现方式
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/09/常用的代码片段/" rel="prev" title="常用的代码片段">
-                常用的代码片段 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -635,7 +585,7 @@ Quartz: 相对task强大一些，对于服务器集群环境，可以保证仅�
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#分类"><span class="nav-number">1.</span> <span class="nav-text">分类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实现的技术"><span class="nav-number">1.1.</span> <span class="nav-text">实现的技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#作业类的继承方式"><span class="nav-number">1.2.</span> <span class="nav-text">作业类的继承方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调度时间来讲"><span class="nav-number">1.3.</span> <span class="nav-text">调度时间来讲</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用说明"><span class="nav-number">2.</span> <span class="nav-text">使用说明</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Task"><span class="nav-number">2.1.</span> <span class="nav-text">Spring Task</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Quartz"><span class="nav-number">2.2.</span> <span class="nav-text">Quartz</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置调度工厂"><span class="nav-number">2.2.1.</span> <span class="nav-text">配置调度工厂</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置触发器"><span class="nav-number">2.2.2.</span> <span class="nav-text">配置触发器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">3.</span> <span class="nav-text">小结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#获取UTC时间"><span class="nav-number">1.</span> <span class="nav-text">获取UTC时间</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#获取Spring容器的bean"><span class="nav-number">2.</span> <span class="nav-text">获取Spring容器的bean</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#方法1"><span class="nav-number">2.1.</span> <span class="nav-text">方法1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法2"><span class="nav-number">2.2.</span> <span class="nav-text">方法2</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
@@ -761,9 +711,9 @@ Quartz: 相对task强大一些，对于服务器集群环境，可以保证仅�
 
     <script type="text/javascript">
       var disqus_shortname = 'gether';
-      var disqus_identifier = '2016/08/Spring中定时任务的实现方式/';
-      var disqus_title = "Spring中定时任务的实现方式";
-      var disqus_url = 'http://gether.me/2016/08/Spring中定时任务的实现方式/';
+      var disqus_identifier = '2016/09/常用的代码片段/';
+      var disqus_title = "常用的代码片段";
+      var disqus_url = 'http://gether.me/2016/09/常用的代码片段/';
 
       function run_disqus_script(disqus_script){
         var dsq = document.createElement('script');
